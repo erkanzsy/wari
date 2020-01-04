@@ -8,7 +8,8 @@ import javax.persistence.*;
 import java.util.List;
 
 @NoArgsConstructor
-@Entity(name = "kullanicilar")
+@Entity
+@Table(name = "kullanicilar")
 @Getter
 @Setter
 public class User {

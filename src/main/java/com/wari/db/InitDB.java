@@ -38,13 +38,12 @@ public class InitDB implements CommandLineRunner {
         User user = new User();
         user.setAd("Ali");
         user.setSoyad("Veli");
+        user.setTc("1234567890");
         user.setTelefonNumarasi("53552535533");
         user.setAdres("Malibu/FalanFilan");
         user.setEmail("ali@veli.com");
         user.setParola(passwordEncoder.encode("av"));
-        user.setTc("1234567890");
         user.setRole("ADMIN");
-        user.setTelefonNumarasi("535353535553");
         user.setAktifMi(true);
 
         User user1 = new User();
@@ -56,7 +55,6 @@ public class InitDB implements CommandLineRunner {
         user1.setParola(passwordEncoder.encode("gaz"));
         user1.setTc("90");
         user1.setRole("USER");
-        user1.setTelefonNumarasi("535353535553");
         user1.setAktifMi(true);
 
         User user12 = new User();
@@ -68,7 +66,6 @@ public class InitDB implements CommandLineRunner {
         user12.setParola(passwordEncoder.encode("eo"));
         user12.setTc("902345");
         user12.setRole("USER");
-        user12.setTelefonNumarasi("5553");
         user12.setAktifMi(false);
 
         userRepository.saveAll(Arrays.asList(user,user1,user12));
