@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
+  <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css" />  
+  
+  <title>
+    Ogrenciler
+  </title>
+  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+  <!--     Fonts and icons     -->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+  <!-- CSS Files -->
+  <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="../assets/css/paper-dashboard.css?v=2.0.0" rel="stylesheet" />
+  <!-- CSS Just for demo purpose, don't include it in your project -->
+  <link href="../assets/demo/demo.css" rel="stylesheet" />
+</head>
+
+<body class="">
+  <div class="wrapper ">
+    <div class="sidebar" data-color="white" data-active-color="danger">
+      <!--
+        Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
+    -->
+      <div class="logo">
+        <a href="#" class="simple-text logo-mini">
+          <div class="logo-image-small">
+            <img src="../assets/img/logo-small.png">
+          </div>
+        </a>
+        <a href="#" class="simple-text logo-normal">
+          Creative Tim
+          <!-- <div class="logo-image-big">
+            <img src="../assets/img/logo-big.png">
+          </div> -->
+        </a>
+      </div>
+      <div class="sidebar-wrapper">
+        <ul class="nav">
+          <li class="">
+            <a th:href="@{/}">
+              <i class="nc-icon nc-bank"></i>
+              <p>Anasayfa</p>
+            </a>
+          </li>
+          <li>
+            <a th:href="@{/ogrenciler}">
+              <i class="nc-icon nc-diamond"></i>
+              <p>Öğrenciler</p>
+            </a>
+          </li>
+          <li sec:authorize="hasRole('ROLE_ADMIN')">
+            <a th:href="@{/calisanlar}">
+              <i class="nc-icon nc-pin-3"></i>
+              <p>Çalışanlar</p>
+            </a>
+          </li>
+
+          <li class="active-pro">
+            <a href="./#">
+              <i class="nc-icon nc-spaceship"></i>
+              <p> <span sec:authentication="name"></span><br></p>
+              <span th:text ="${#authentication.getAuthorities()}"></span><br>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="main-panel">
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
+        <div class="container-fluid">
+          <div class="navbar-wrapper">
+            <div class="navbar-toggle">
+              <button type="button" class="navbar-toggler">
+                <span class="navbar-toggler-bar bar1"></span>
+                <span class="navbar-toggler-bar bar2"></span>
+                <span class="navbar-toggler-bar bar3"></span>
+              </button>
+            </div>
+            <a class="navbar-brand" href="#">Öğrenciler</a>
+          </div>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-bar navbar-kebab"></span>
+            <span class="navbar-toggler-bar navbar-kebab"></span>
+            <span class="navbar-toggler-bar navbar-kebab"></span>
+          </button>
+
+          <div class="collapse navbar-collapse justify-content-end" id="navigation">
+            <form action="#" th:action="@{/bul}" th:object="${keyword}">
+              <div class="input-group no-border">
+                <input type="text" value="" class="form-control" name="keyword" id="keyword" placeholder="Search...">
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <span>
+                      <button type="submit"><i class="nc-icon nc-zoom-split"></i></button>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </form>
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <form style="margin-left: 16px" class="form-inline my-2 my-lg-0" form-method="post" th:action="@{/logout}">
+                  <button sec:authorize="isAuthenticated()" class="btn btn-outline-danger my-2 my-sm-0 btn-sm" type="submit">Çıkış</button>
+                </form>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <!-- End Navbar -->
+      <!-- <div class="panel-header panel-header-sm">
+
+
+</div> -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Öğrenci Ekle</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form th:action="@{/kayit}" th:object="${musteri}" method="POST">
+                <div class="row">
+                  <div class="form-group col-md-6 col-6">
+                    <label class="col-form-label">Adı:</label>
+                    <input type="text" th:field="*{ad}" class="form-control">
+                  </div>
+                  <div class="form-group col-md-6 col-6">
+                    <label class="col-form-label">Soyadı:</label>
+                    <input type="text" th:field="*{soyad}" class="form-control">
+
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-form-label">Adres</label>
+                  <input type="text" th:field="*{adres}" class="form-control">
+
+                </div>
+                <div class="form-group">
+                  <label class="col-form-label">TC:</label>
+                  <input type="number" th:field="*{tc}" class="form-control" >
+
+                </div>
+                <div class="form-group">
+                  <label class="col-form-label">Email:</label>
+                  <input type="email" th:field="*{email}" class="form-control">
+
+                </div>
+                <div class="form-group">
+                  <label class="col-form-label">Telefon Numarası:</label>
+                  <input type="number" th:field="*{telefon}" class="form-control">
+
+                </div>
+                <div class="form-group">
+                  <label class="col-form-label">Açıklama:</label>
+                  <input type="text" th:field="*{aciklama}" class="form-control">
+
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                  <button type="submit" class="btn btn-primary">Onayla</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="content">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">Öğrenciler 
+                  <span>
+                    <button type="button" class="btn btn-sm btn-outline-success btn-round btn-icon" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap" title="Öğrenci Ekle"><i class="fa fa-plus" aria-hidden="true" title="Öğrenci Ekle"></i></button>
+                  </span>
+                </h4>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table id="datatable" class="table">  
+                    <thead align="Center">
+                        <tr>  
+                            <th>  
+                                Adı  
+                            </th>  
+                            <th>  
+                                Soyadı  
+                            </th>  
+                            <th>  
+                                Telefonu 
+                            </th>
+                            <th>
+                              Gör
+                            </th>
+
+                        </tr>  
+                    </thead>  
+                    <tbody align="Center">
+                      <tr th:if="${searchresult} == null ">
+                        <td colspan="2"> Gösterilecek donuç yok </td>
+                      </tr>
+                      <tr th:each="result : ${searchresult}">
+                        <td><span th:text="${result.getAd()}"> Ad </span></td>
+                        <td><span th:text="${result.getSoyad()}"> Soyad </span></td>
+                        <td><span th:text="${result.getTelefon()}"> Telefon </span></td>
+                        <td><a th:href="${'/musteri/' + result.getId()}">Git</a></td>
+                      </tr>
+                    </tbody>
+                </table>  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer class="footer footer-black  footer-white ">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="credits ml-auto">
+              <span class="copyright">
+                ©
+                <script>
+                  document.write(new Date().getFullYear())
+                </script>, made with <i class="fa fa-heart heart"></i> by Omu Tim
+              </span>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+  <!--   Core JS Files   -->
+  <script src="../assets/js/core/jquery.min.js"></script>
+  <script src="../assets/js/core/popper.min.js"></script>
+  <script src="../assets/js/core/bootstrap.min.js"></script>
+  <script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+  <!--  Google Maps Plugin    -->
+  <!-- Chart JS -->
+  <script src="../assets/js/plugins/bootstrap-notify.js"></script>
+  <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
+  <script src="../assets/js/paper-dashboard.min.js?v=2.0.0" type="text/javascript"></script>
+  <!-- Paper Dashboard DEMO methods, don't include it in your project! -->
+  <script src="../assets/demo/demo.js"></script>
+  <!--<script>
+    function form(){
+      var value  = ("#search-input").val();
+      value = encodeURI(value);
+      ("#search-form").attr("action",window.location.protocol + "//" + window.location.host + "/musteribul?search=" + value)
+    }
+  </script>
+  -->
+</body>
+
+</html>
