@@ -11,10 +11,8 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 
-@NoArgsConstructor
-@Getter
-@Setter
-@Entity(name = "musteriler")
+@Entity
+@Table(name = "musteriler")
 public class Musteri {
 
     @Id
@@ -41,8 +39,89 @@ public class Musteri {
 
     private LocalDate kayitTarihi;
 
-
-    @JsonIgnore
     @OneToMany(mappedBy = "musteri", cascade = CascadeType.ALL)
     private List<Islem> islemler;
+
+    public Musteri() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getAd() {
+        return ad;
+    }
+
+    public void setAd(String ad) {
+        this.ad = ad;
+    }
+
+    public String getSoyad() {
+        return soyad;
+    }
+
+    public void setSoyad(String soyad) {
+        this.soyad = soyad;
+    }
+
+    public String getTc() {
+        return tc;
+    }
+
+    public void setTc(String tc) {
+        this.tc = tc;
+    }
+
+    public String getTelefon() {
+        return telefon;
+    }
+
+    public void setTelefon(String telefon) {
+        this.telefon = telefon;
+    }
+
+    public String getAciklama() {
+        return aciklama;
+    }
+
+    public void setAciklama(String aciklama) {
+        this.aciklama = aciklama;
+    }
+
+    public String getAdres() {
+        return adres;
+    }
+
+    public void setAdres(String adres) {
+        this.adres = adres;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public LocalDate getKayitTarihi() {
+        return kayitTarihi;
+    }
+
+    public void setKayitTarihi(LocalDate kayitTarihi) {
+        this.kayitTarihi = kayitTarihi;
+    }
+
+    public List<Islem> getIslemler() {
+        return islemler;
+    }
+
+    public void setIslemler(List<Islem> islemler) {
+        this.islemler = islemler;
+    }
 }

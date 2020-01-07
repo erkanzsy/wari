@@ -32,13 +32,13 @@
         Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
     -->
       <div class="logo">
-        <a href="#" class="simple-text logo-mini">
+        <a  th:href="@{/}" class="simple-text logo-mini">
           <div class="logo-image-small">
             <img src="../assets/img/logo-small.png">
           </div>
         </a>
         <a href="#" class="simple-text logo-normal">
-          Creative Tim
+          Wari
           <!-- <div class="logo-image-big">
             <img src="../assets/img/logo-big.png">
           </div> -->
@@ -53,14 +53,14 @@
             </a>
           </li>
           <li>
-            <a th:href="@{/ogrenciler}">
-              <i class="nc-icon nc-diamond"></i>
-              <p>Öğrenciler</p>
+            <a th:href="@{/musteriler}">
+              <i class="nc-icon nc-single-02"></i>
+              <p>Müşteriler</p>
             </a>
           </li>
           <li sec:authorize="hasRole('ROLE_ADMIN')">
-            <a th:href="@{/calisanlar}">
-              <i class="nc-icon nc-pin-3"></i>
+            <a th:href="@{/users}">
+              <i class="nc-icon nc-circle-10"></i>
               <p>Çalışanlar</p>
             </a>
           </li>
@@ -128,36 +128,36 @@
               </button>
             </div>
             <div class="modal-body">
-              <form th:action="@{/calisanKayit}" th:object="${calisan}" method="POST">
+              <form th:action="@{/userKayit}" th:object="${user}" method="POST">
                 <div class="row">
                   <div class="form-group col-md-6 col-6">
                     <label class="col-form-label">Adı:</label>
-                    <input type="text" th:field="*{ad}" class="form-control">
+                    <input type="text" th:field="*{ad}" class="form-control" required minlength="3">
                   </div>
                   <div class="form-group col-md-6 col-6">
                     <label class="col-form-label">Soyadı:</label>
-                    <input type="text" th:field="*{soyad}" class="form-control">
+                    <input type="text" th:field="*{soyad}" class="form-control" required minlength="3">
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-form-label">Adres</label>
-                  <input type="text" th:field="*{adres}" class="form-control">
+                  <input type="text" th:field="*{adres}" class="form-control" required minlength="3">
                 </div>
                 <div class="form-group">
                   <label class="col-form-label">TC:</label>
-                  <input type="number" th:field="*{tc}" class="form-control" >
+                  <input type="number" th:field="*{tc}" class="form-control" required minlength="3" >
                 </div>
                 <div class="form-group">
                   <label class="col-form-label">Telefon Numarası:</label>
-                  <input type="number" th:field="*{telefonNumarasi}" class="form-control">
+                  <input type="number" th:field="*{telefonNumarasi}" class="form-control" required minlength="3">
                 </div>
                 <div class="form-group">
                   <label class="col-form-label">Email:</label>
-                  <input type="email" th:field="*{email}" class="form-control">
+                  <input type="email" th:field="*{email}" class="form-control" required minlength="3">
                 </div>
                 <div class="form-group">
                   <label class="col-form-label">Parola:</label>
-                  <input type="text" th:field="*{parola}" class="form-control" min="6">
+                  <input type="text" th:field="*{parola}" class="form-control" min="6" required minlength="3">
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
@@ -168,14 +168,24 @@
           </div>
         </div>
       </div>
+
       <div class="content">
+        <div th:if="${param.error}">
+          <div class="alert alert-danger alert-dismissible fade show">
+            <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
+              <i class="nc-icon nc-simple-remove"></i>
+            </button>
+            <span>
+                  <b> Kayıt Gerçekleşmedi Tekrar Deneyin (Mail Benzersiz Olmalı) </b></span>
+          </div>
+        </div>
         <div class="row">
           <div class="col-md-12">
             <div class="card">
               <div class="card-header">
                 <h4 class="card-title">Çalışanlar 
                   <span>
-                    <button type="button" class="btn btn-sm btn-outline-success btn-round btn-icon" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap" title="Calısan Ekle"><i class="fa fa-plus" aria-hidden="true" title="Calısan Ekle"></i></button>
+                    <button type="button" class="btn btn-sm btn-outline-success btn-round btn-icon" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap" title="User Ekle"><i class="fa fa-plus" aria-hidden="true" title="User Ekle"></i></button>
                   </span>
                 </h4>
               </div>
@@ -191,7 +201,10 @@
                         Soyadı
                       </th>
                       <th>
-                        Rol Degistir
+                        Aktiflik Durumu
+                      </th>
+                      <th sec:authorize="hasRole('ROLE_SUPER')">
+                        Rol Değiştir
                       </th>
                       <th>
                         Gör
@@ -199,15 +212,16 @@
                     </tr>
                     </thead>
                     <tbody align="Center">
-                    <tr th:if="${calisanlar} == null ">
+                    <tr th:if="${users} == null ">
                       <td colspan="2"> Gösterilecek donuç yok </td>
                     </tr>
-                    <tr th:each="calisan : ${calisanlar}">
-                      <td><span th:text="${calisan.getAd()}"> Ad </span></td>
-                      <td><span th:text="${calisan.getSoyad()}"> Soyad </span></td>
-                      <td th:if="${calisan.isAktifMi()} == true "><a class="btn-danger" th:href="${'/calisanDisable/' + calisan.getId()}">Disable Et</a></td>
-                      <td th:if="${calisan.isAktifMi()} == false "><a class="btn-success" th:href="${'/calisanActive/' + calisan.getId()}">Active Et</a></td>
-                      <td><a th:href="${'/calisan/' + calisan.getId()}">Git</a></td>
+                    <tr th:each="user : ${users}">
+                      <td><span th:text="${user.getAd()}"> Ad </span></td>
+                      <td><span th:text="${user.getSoyad()}"> Soyad </span></td>
+                      <td th:if="${user.isAktifMi()} == true "><a class="btn-danger" th:href="${'/userDisable/' + user.getId()}">Disable Et</a></td>
+                      <td th:if="${user.isAktifMi()} == false "><a class="btn-success" th:href="${'/userActive/' + user.getId()}">Active Et</a></td>
+                      <td sec:authorize="hasRole('ROLE_SUPER')" ><a class="btn-success" th:href="${'/userRole/' + user.getId()}">Admin Yap</a></td>
+                      <td><a th:href="${'/user/' + user.getId()}">Git</a></td>
                     </tr>
                     </tbody>
                   </table>

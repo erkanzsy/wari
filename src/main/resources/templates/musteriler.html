@@ -6,8 +6,10 @@
   <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="../assets/img/favicon.png">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css" />  
+  
   <title>
-    Öğrenci
+    Müşteriler
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
@@ -27,13 +29,13 @@
         Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
     -->
       <div class="logo">
-        <a href="#" class="simple-text logo-mini">
+        <a  th:href="@{/}" class="simple-text logo-mini">
           <div class="logo-image-small">
             <img src="../assets/img/logo-small.png">
           </div>
         </a>
         <a href="#" class="simple-text logo-normal">
-          Creative Tim
+          Wari
           <!-- <div class="logo-image-big">
             <img src="../assets/img/logo-big.png">
           </div> -->
@@ -48,14 +50,14 @@
             </a>
           </li>
           <li>
-            <a th:href="@{/ogrenciler}">
-              <i class="nc-icon nc-diamond"></i>
-              <p>Öğrenciler</p>
+            <a th:href="@{/musteriler}">
+              <i class="nc-icon nc-single-02"></i>
+              <p>Müşteriler</p>
             </a>
           </li>
           <li sec:authorize="hasRole('ROLE_ADMIN')">
-            <a th:href="@{/calisanlar}">
-              <i class="nc-icon nc-pin-3"></i>
+            <a th:href="@{/users}">
+              <i class="nc-icon nc-circle-10"></i>
               <p>Çalışanlar</p>
             </a>
           </li>
@@ -82,13 +84,14 @@
                 <span class="navbar-toggler-bar bar3"></span>
               </button>
             </div>
-            <a class="navbar-brand" href="#">Profil</a>
+            <a class="navbar-brand" href="#">Müşteriler</a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-bar navbar-kebab"></span>
             <span class="navbar-toggler-bar navbar-kebab"></span>
             <span class="navbar-toggler-bar navbar-kebab"></span>
           </button>
+
           <div class="collapse navbar-collapse justify-content-end" id="navigation">
             <form action="#" th:action="@{/bul}" th:object="${keyword}">
               <div class="input-group no-border">
@@ -117,95 +120,116 @@
 
 
 </div> -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Müşteriler Ekle</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form th:action="@{/kayit}" th:object="${musteri}" method="POST">
+                <div class="row">
+                  <div class="form-group col-md-6 col-6">
+                    <label class="col-form-label">Adı:</label>
+                    <input type="text" th:field="*{ad}" class="form-control" required minlength="3">
+                  </div>
+                  <div class="form-group col-md-6 col-6">
+                    <label class="col-form-label">Soyadı:</label>
+                    <input type="text" th:field="*{soyad}" class="form-control" required minlength="3">
+
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-form-label">Adres</label>
+                  <input type="text" th:field="*{adres}" class="form-control" required minlength="3">
+
+                </div>
+                <div class="form-group">
+                  <label class="col-form-label">TC:</label>
+                  <input type="number" th:field="*{tc}" class="form-control" required minlength="3">
+
+                </div>
+                <div class="form-group">
+                  <label class="col-form-label">Email:</label>
+                  <input type="email" th:field="*{email}" class="form-control" required minlength="3">
+
+                </div>
+                <div class="form-group">
+                  <label class="col-form-label">Telefon Numarası:</label>
+                  <input type="number" th:field="*{telefon}" class="form-control" required minlength="3">
+
+                </div>
+                <div class="form-group">
+                  <label class="col-form-label">Açıklama:</label>
+                  <input type="text" th:field="*{aciklama}" class="form-control" required minlength="3">
+
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                  <button type="submit" class="btn btn-primary">Onayla</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div th:if="${param.odemeError}">
+        <div class="alert alert-danger alert-dismissible fade show">
+          <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
+            <i class="nc-icon nc-simple-remove"></i>
+          </button>
+          <span>
+                  <b> Başarısız Ödeme Tekrar Deneyin </b></span>
+        </div>
+      </div>
       <div class="content">
         <div class="row">
-          <div class="col-md-4">
+          <div class="col-md-12">
             <div class="card">
               <div class="card-header">
-                <h4 class="card-title">Alınan Odemeler
+                <h4 class="card-title">Müşteriler
                   <span>
-                    <button type="button" class="btn btn-sm btn-outline-success btn-round btn-icon"><a id="odemelerpdf"><i class="fa fa-plus" aria-hidden="true" title="Öğrenci Ekle"></i></a></button>
+                    <button type="button" class="btn btn-sm btn-outline-success btn-round btn-icon" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap" title="Müşteri Ekle"><i class="fa fa-plus" aria-hidden="true" title="Müşteri Ekle"></i></button>
                   </span>
                 </h4>
               </div>
               <div class="card-body">
-                <table class="table">
-                  <thead align="center">
-                  <tr>
-                    <th>
-                      Musteri Adı
-                    </th>
-                    <th>
-                      İşlem Adı
-                    </th>
-                    <th>
-                      Tutar
-                    </th>
-                  </tr>
-                  </thead>
-                  <tbody align="center">
-                  <tr th:each="odeme : ${odemeler}">
-                    <td><span th:text="${odeme.getIslem().getMusteri().getAd() + ' ' + odeme.getIslem().getMusteri().getSoyad()}"> Ad </span></td>
-                    <td><span th:text="${odeme.getIslem().getAciklama()}"> Ad </span></td>
-                    <td><span th:text="${odeme.getOdenenTutar()}"> Tutar </span></td>
-                  </tr>
-                  </tbody>
-                </table>
+                <div class="table-responsive">
+                  <table id="datatable" class="table">  
+                    <thead align="Center">
+                        <tr>  
+                            <th>  
+                                Adı  
+                            </th>  
+                            <th>  
+                                Soyadı  
+                            </th>  
+                            <th>  
+                                Telefonu 
+                            </th>
+                            <th>
+                              Gör
+                            </th>
+
+                        </tr>  
+                    </thead>  
+                    <tbody align="Center">
+                      <tr th:if="${searchresult} == null ">
+                        <td colspan="2"> Gösterilecek donuç yok </td>
+                      </tr>
+                      <tr th:each="result : ${searchresult}">
+                        <td><span th:text="${result.getAd()}"> Ad </span></td>
+                        <td><span th:text="${result.getSoyad()}"> Soyad </span></td>
+                        <td><span th:text="${result.getTelefon()}"> Telefon </span></td>
+                        <td><a th:href="${'/musteri/' + result.getId()}">Git</a></td>
+                      </tr>
+                    </tbody>
+                </table>  
+                </div>
               </div>
-            </div>
-          </div>
-          <div class="col-md-8">
-            <div class="card card-user">
-              <div class="card-header">
-                <h5 class="card-title">Müşteri Bilgileri</h5>
-              </div>
-                <form th:action="@{/#}" th:object="${calisan}">
-                  <div class="card-body">
-                    <div class="row">
-                      <div class="col-md-6 pr-1">
-                        <div class="form-group">
-                          <label>Ad</label>
-                          <input type="text" class="form-control" disabled=""  value="Ad" th:field="*{ad}">
-                        </div>
-                      </div>
-                      <div class="col-md-6 pl-1">
-                        <div class="form-group">
-                          <label>Soyad</label>
-                          <input type="text" class="form-control" disabled="" placeholder="Soyad" th:field="*{soyad}" value="Faker">
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-12">
-                        <div class="form-group">
-                          <label>Adres</label>
-                          <input type="text" class="form-control" disabled="" placeholder="Addres" th:field="*{adres}" value="Melbourne, Australia">
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-4 pr-1">
-                        <div class="form-group">
-                          <label>TC</label>
-                          <input type="number" class="form-control" disabled="" placeholder="TC" th:field="*{tc}" value="Melbourne">
-                        </div>
-                      </div>
-                      <div class="col-md-4 px-1">
-                        <div class="form-group">
-                          <label>Email</label>
-                          <input type="email" class="form-control" disabled="" placeholder="Email" th:field="*{email}" value="Australia">
-                        </div>
-                      </div>
-                      <div class="col-md-4 pl-1">
-                        <div class="form-group">
-                          <label>Telefon Numarası
-                          </label>
-                          <input type="number" class="form-control" disabled="" th:field="*{telefonNumarasi}" placeholder="Telefon">
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </form>
             </div>
           </div>
         </div>
@@ -213,9 +237,6 @@
       <footer class="footer footer-black  footer-white ">
         <div class="container-fluid">
           <div class="row">
-            <nav class="footer-nav">
-
-            </nav>
             <div class="credits ml-auto">
               <span class="copyright">
                 ©
@@ -234,15 +255,21 @@
   <script src="../assets/js/core/popper.min.js"></script>
   <script src="../assets/js/core/bootstrap.min.js"></script>
   <script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
-  <!--  Notifications Plugin    -->
+  <!--  Google Maps Plugin    -->
+  <!-- Chart JS -->
   <script src="../assets/js/plugins/bootstrap-notify.js"></script>
   <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/paper-dashboard.min.js?v=2.0.0" type="text/javascript"></script>
   <!-- Paper Dashboard DEMO methods, don't include it in your project! -->
   <script src="../assets/demo/demo.js"></script>
-  <script>
-      $('#odemelerpdf').attr('href',window.location.href + '/pdf')
+  <!--<script>
+    function form(){
+      var value  = ("#search-input").val();
+      value = encodeURI(value);
+      ("#search-form").attr("action",window.location.protocol + "//" + window.location.host + "/musteribul?search=" + value)
+    }
   </script>
+  -->
 </body>
 
 </html>

@@ -1,7 +1,6 @@
 package com.wari.services;
 
 import com.wari.model.Musteri;
-import com.wari.model.Odeme;
 import com.wari.repository.MusteriRepository;
 import com.wari.repository.OdemeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +18,8 @@ public class MusteriService {
     @Autowired
     OdemeRepository odemeRepository;
 
-    public List<Musteri> sorunluMusteri(){
-        return null;
-    }
-
     public void save(Musteri musteri){
+        musteri.setKayitTarihi(LocalDate.now());
         musteriRepository.save(musteri);
     }
 
@@ -38,11 +34,7 @@ public class MusteriService {
     }
 
     public List<Musteri> findByNameOrSurname(String name, String surname){
-        return musteriRepository.findByAdLikeOrSoyadLike(name, surname);
-    }
-
-    public List<Musteri> findByName(String name){
-        return musteriRepository.findByAdLike(name);
+        return musteriRepository.findByAdContainingOrSoyadContaining(name, surname);
     }
 
     public List<Musteri> findByNameContaining(String name){
@@ -64,6 +56,6 @@ public class MusteriService {
         dbMusteri.setAdres(musteri.getAdres());
         dbMusteri.setEmail(musteri.getEmail());
 
-        musteriRepository.save(musteri);
+        musteriRepository.save(dbMusteri);
     }
 }

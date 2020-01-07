@@ -11,9 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class OdemeService {
@@ -24,32 +22,54 @@ public class OdemeService {
     @Autowired
     OdemeRepository odemeRepository;
 
-    @Autowired
-    MusteriRepository musteriRepository;
 
     @Autowired
     IslemRepository islemRepository;
-
 
     public int bugunkiKazanc(){
        return odemeRepository.findAllByIslemTarihi(LocalDate.now()).stream().mapToInt(odeme -> odeme.getOdenenTutar()).sum();
     }
 
-    public List<Odeme> bugunkiOdemeler(){
+    public List<Odeme> bugunkiSonOdemeler(){
         List<Odeme> odemes = odemeRepository.findAllByIslemTarihi(LocalDate.now());
         Collections.reverse(odemes);
+
+        if (odemes.size() > 5){
+            return Arrays.asList(odemes.get(0),odemes.get(1),odemes.get(2),odemes.get(3),odemes.get(4));
+        }
+
         return odemes;
     }
 
     public List<Odeme> findAllByOdemeAlanId(int id){
-        return odemeRepository.findAllByOdemeAlanId(id);
+        List<Odeme> odemes = odemeRepository.findAllByOdemeAlanId(id);
+        Collections.reverse(odemes);
+        return odemes;
     }
 
-    public void saveOdemeByMusteriIdAndIslemId(int musteri_id, int islem_index, Odeme odeme, Principal principal) {
+    public boolean saveOdemeByMusteriIdAndIslemId(int musteri_id, int islem_index, Odeme odeme, Principal principal) {
         Islem islem = islemRepository.findByMusteriId(musteri_id).get(islem_index);
-        odeme.setIslemTarihi(LocalDate.now());
-        odeme.setOdemeAlan(userRepository.findByEmail(principal.getName()));
-        odeme.setIslem(islem);
-        odemeRepository.save(odeme);
+        int toplam = islem.getOdemeler().stream().mapToInt(odeme1 -> odeme1.getOdenenTutar()).sum();
+        int kalan = islem.getTutar()-toplam;
+
+        if (islem.getTutar() >= odeme.getOdenenTutar() && odeme.getOdenenTutar() <= kalan){
+
+            toplam += odeme.getOdenenTutar();
+
+            odeme.setIslemTarihi(LocalDate.now());
+            odeme.setOdemeAlan(userRepository.findByEmail(principal.getName()));
+
+            odeme.setIslem(islem);
+            odemeRepository.save(odeme);
+
+            if (islem.getTutar() <= toplam){
+                islem.setBitti(true);
+                islemRepository.save(islem);
+            }
+            return true;
+        }else{
+            return false;
+        }
+
     }
 }

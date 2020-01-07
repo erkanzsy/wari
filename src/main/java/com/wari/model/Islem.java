@@ -1,18 +1,13 @@
 package com.wari.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
-@Entity(name = "islemler")
-@Getter
-@Setter
+@Entity
+@Table(name = "islemler")
 public class Islem {
 
     @Id
@@ -20,10 +15,9 @@ public class Islem {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "musteri_id")
+    @JoinColumn
     private Musteri musteri;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "islem", cascade = CascadeType.ALL)
     private List<Odeme> odemeler;
 
@@ -33,6 +27,72 @@ public class Islem {
 
     private int ay;
 
+    private boolean bitti;
+
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "yyyy-MM-dd")
     private LocalDate tarih;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Musteri getMusteri() {
+        return musteri;
+    }
+
+    public void setMusteri(Musteri musteri) {
+        this.musteri = musteri;
+    }
+
+    public List<Odeme> getOdemeler() {
+        return odemeler;
+    }
+
+    public void setOdemeler(List<Odeme> odemeler) {
+        this.odemeler = odemeler;
+    }
+
+    public String getAciklama() {
+        return aciklama;
+    }
+
+    public void setAciklama(String aciklama) {
+        this.aciklama = aciklama;
+    }
+
+    public int getTutar() {
+        return tutar;
+    }
+
+    public void setTutar(int tutar) {
+        this.tutar = tutar;
+    }
+
+    public int getAy() {
+        return ay;
+    }
+
+    public void setAy(int ay) {
+        this.ay = ay;
+    }
+
+    public boolean isBitti() {
+        return bitti;
+    }
+
+    public void setBitti(boolean bitti) {
+        this.bitti = bitti;
+    }
+
+    public LocalDate getTarih() {
+        return tarih;
+    }
+
+    public void setTarih(LocalDate tarih) {
+        this.tarih = tarih;
+    }
 }

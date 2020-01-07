@@ -12,9 +12,7 @@ public interface MusteriRepository extends JpaRepository<Musteri,Integer> {
 
     List<Musteri> findAllByKayitTarihi(LocalDate localDate);
 
-    List<Musteri> findByAdLikeOrSoyadLike(String name, String surname);
-
-    List<Musteri> findByAdLike(String name);
+    List<Musteri> findByAdContainingOrSoyadContaining(String name, String surname);
 
     List<Musteri> findByAdContaining(String name);
 

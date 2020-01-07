@@ -23,9 +23,6 @@ public class IslemService {
         return islemRepository.odemeBitmemisveBirAydirOdemeYapmayanlar();
     }
 
-    public List<Islem> odemeBitmeyenler(){
-        return islemRepository.odemesiBitmeyenler();
-    }
 
     public List<Islem> finfByMusteriId(int id){ return islemRepository.findByMusteriId(id);}
 
@@ -37,7 +34,6 @@ public class IslemService {
 
     public List<Islem> findLastFive(){
         List<Islem> sonIslemlerSirali = islemRepository.findTop5ByOrderByIdDesc();
-        Collections.reverse(sonIslemlerSirali);
         return sonIslemlerSirali;
     }
 

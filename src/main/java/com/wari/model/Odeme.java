@@ -9,23 +9,20 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.time.LocalDate;
 
-@Entity(name = "odemeler")
-@Getter
-@Setter
+@Entity
+@Table(name = "odemeler")
 public class Odeme {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn
     private User odemeAlan;
 
-    @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "islem_id")
+    @JoinColumn
     private Islem islem;
 
     private int odenenTutar;
@@ -33,4 +30,46 @@ public class Odeme {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "yyyy-MM-dd")
     private LocalDate islemTarihi;
 
+    public Odeme() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public User getOdemeAlan() {
+        return odemeAlan;
+    }
+
+    public void setOdemeAlan(User odemeAlan) {
+        this.odemeAlan = odemeAlan;
+    }
+
+    public Islem getIslem() {
+        return islem;
+    }
+
+    public void setIslem(Islem islem) {
+        this.islem = islem;
+    }
+
+    public int getOdenenTutar() {
+        return odenenTutar;
+    }
+
+    public void setOdenenTutar(int odenenTutar) {
+        this.odenenTutar = odenenTutar;
+    }
+
+    public LocalDate getIslemTarihi() {
+        return islemTarihi;
+    }
+
+    public void setIslemTarihi(LocalDate islemTarihi) {
+        this.islemTarihi = islemTarihi;
+    }
 }

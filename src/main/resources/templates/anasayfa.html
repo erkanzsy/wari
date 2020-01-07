@@ -31,13 +31,13 @@
         Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
     -->
       <div class="logo">
-        <a href="#" class="simple-text logo-mini">
+        <a  th:href="@{/}" class="simple-text logo-mini">
           <div class="logo-image-small">
             <img src="../assets/img/logo-small.png">
           </div>
         </a>
         <a href="#" class="simple-text logo-normal">
-          Creative Tim
+          Wari
           <!-- <div class="logo-image-big">
             <img src="../assets/img/logo-big.png">
           </div> -->
@@ -52,14 +52,14 @@
             </a>
           </li>
           <li>
-            <a th:href="@{/ogrenciler}">
-              <i class="nc-icon nc-diamond"></i>
-              <p>Öğrenciler</p>
+            <a th:href="@{/musteriler}">
+              <i class="nc-icon nc-single-02"></i>
+              <p>Müşteriler</p>
             </a>
           </li>
           <li sec:authorize="hasRole('ROLE_ADMIN')">
-            <a th:href="@{/calisanlar}">
-              <i class="nc-icon nc-pin-3"></i>
+            <a th:href="@{/users}">
+              <i class="nc-icon nc-circle-10"></i>
               <p>Çalışanlar</p>
             </a>
           </li>
@@ -137,7 +137,7 @@
                   <div class="col-7 col-md-8">
                     <div class="numbers">
                       <p class="card-category">Toplam Öğrenci</p>
-                      <p class="card-title" th:text="${ogrenci_sayisi}">150<p>
+                      <p class="card-title" th:text="${musteri_sayisi}">150<p>
                     </div>
                   </div>
                 </div>
@@ -156,7 +156,7 @@
                 <div class="row">
                   <div class="col-5 col-md-4">
                     <div class="icon-big text-center icon-warning">
-                      <i class="nc-icon nc-vector text-danger"></i>
+                      <i class="nc-icon nc-badge text-danger"></i>
                     </div>
                   </div>
                   <div class="col-7 col-md-8">

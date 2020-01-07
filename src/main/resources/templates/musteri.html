@@ -7,7 +7,7 @@
   <link rel="icon" type="image/png" href="../assets/img/favicon.png">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
-    Öğrenci
+    Müşteri
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
@@ -27,13 +27,13 @@
         Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
     -->
       <div class="logo">
-        <a href="#" class="simple-text logo-mini">
+        <a  th:href="@{/}" class="simple-text logo-mini">
           <div class="logo-image-small">
             <img src="../assets/img/logo-small.png">
           </div>
         </a>
         <a href="#" class="simple-text logo-normal">
-          Creative Tim
+          Wari
           <!-- <div class="logo-image-big">
             <img src="../assets/img/logo-big.png">
           </div> -->
@@ -48,14 +48,14 @@
             </a>
           </li>
           <li>
-            <a th:href="@{/ogrenciler}">
-              <i class="nc-icon nc-diamond"></i>
-              <p>Öğrenciler</p>
+            <a th:href="@{/musteriler}">
+              <i class="nc-icon nc-single-02"></i>
+              <p>Musteriler</p>
             </a>
           </li>
           <li sec:authorize="hasRole('ROLE_ADMIN')">
-            <a th:href="@{/calisanlar}">
-              <i class="nc-icon nc-pin-3"></i>
+            <a th:href="@{/users}">
+              <i class="nc-icon nc-circle-10"></i>
               <p>Çalışanlar</p>
             </a>
           </li>
@@ -139,6 +139,15 @@
                   <b> Update Başarılı </b></span>
                 </div>
               </div>
+              <div th:if="${param.odemeError}">
+                <div class="alert alert-danger alert-dismissible fade show">
+                  <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
+                    <i class="nc-icon nc-simple-remove"></i>
+                  </button>
+                  <span>
+                  <b> Başarısız Ödeme Tekrar Deneyin </b></span>
+                </div>
+              </div>
               <div th:if="${param.kayit}">
                 <div class="alert alert-success alert-dismissible fade show">
                   <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
@@ -160,7 +169,7 @@
               <div class="card-header">
                 <h4 class="card-title">İşlemler
                   <span>
-                    <button type="button" class="btn btn-sm btn-outline-success btn-round btn-icon" data-toggle="modal" data-target="#islemEkle" data-whatever="" title="Öğrenci Ekle"><i class="fa fa-plus" aria-hidden="true" title="Öğrenci Ekle"></i></button>
+                    <button type="button" class="btn btn-sm btn-outline-success btn-round btn-icon" data-toggle="modal" data-target="#islemEkle" data-whatever="" title="Müşteriler Ekle"><i class="fa fa-plus" aria-hidden="true" title="Müşteri Ekle"></i></button>
                   </span>
                 </h4>
               </div>
@@ -182,7 +191,7 @@
                           <button type="submit" class="btn btn-sm btn-outline-success btn-round btn-icon" title="PDF al"><i class="fa fa-file-pdf-o"></i></button>
                         </a>
                       </span>
-                        <button  th:href="${'/odemeYap/' + islem.getId()}" type="button" class="btn btn-sm btn-outline-success btn-round btn-icon" data-toggle="modal" data-target="#exampleModal" title="Odeme Yap" th:attrappend="data-whatever=${islem.getAciklama()}"><i class="fa fa-credit-card"></i></button>
+                        <button th:if="${islem.isBitti()} == false" th:href="${'/odemeYap/' + islem.getId()}" type="button" class="btn btn-sm btn-outline-success btn-round btn-icon" data-toggle="modal" data-target="#exampleModal" title="Odeme Yap" th:attrappend="data-whatever=${islem.getAciklama()}"><i class="fa fa-credit-card"></i></button>
                     </div>
                   </li>
                 </ul>
@@ -204,13 +213,13 @@
                       <div class="col-md-6 pr-1">
                         <div class="form-group">
                           <label>Ad</label>
-                          <input type="text" id="ad" class="form-control" disabled=""  value="Ad" th:field="*{ad}">
+                          <input type="text" id="ad" class="form-control" disabled=""  value="Ad" th:field="*{ad}" required minlength="3">
                         </div>
                       </div>
                       <div class="col-md-6 pl-1">
                         <div class="form-group">
                           <label>Soyad</label>
-                          <input type="text" id="soyad" class="form-control" disabled="" placeholder="Soyad" th:field="*{soyad}" value="Faker">
+                          <input type="text" id="soyad" class="form-control" disabled="" placeholder="Soyad" th:field="*{soyad}" value="Faker" required minlength="3">
                         </div>
                       </div>
                     </div>
@@ -218,7 +227,7 @@
                       <div class="col-md-12">
                         <div class="form-group">
                           <label>Adres</label>
-                          <input type="text" id="adres" class="form-control" disabled="" placeholder="Addres" th:field="*{adres}" value="Melbourne, Australia">
+                          <input type="text" id="adres" class="form-control" disabled="" placeholder="Addres" th:field="*{adres}" value="Melbourne, Australia" required minlength="3">
                         </div>
                       </div>
                     </div>
@@ -226,26 +235,26 @@
                       <div class="col-md-4 pr-1">
                         <div class="form-group">
                           <label>TC</label>
-                          <input type="number" id="tc" class="form-control" disabled="" placeholder="TC" th:field="*{tc}" value="Melbourne">
+                          <input type="number" id="tc" class="form-control" disabled="" placeholder="TC" th:field="*{tc}" value="Melbourne" required minlength="3">
                         </div>
                       </div>
                       <div class="col-md-4 px-1">
                         <div class="form-group">
                           <label>Email</label>
-                          <input type="email" id="email" class="form-control" disabled="" placeholder="Email" th:field="*{email}" value="Australia">
+                          <input type="email" id="email" class="form-control" disabled="" placeholder="Email" th:field="*{email}" value="Australia" required minlength="3">
                         </div>
                       </div>
                       <div class="col-md-4 pl-1">
                         <div class="form-group">
                           <label>Telefon Numarası
                           </label>
-                          <input type="number" id="telefonNo" class="form-control" disabled="" th:field="*{telefon}" placeholder="Telefon">
+                          <input type="number" id="telefonNo" class="form-control" disabled="" th:field="*{telefon}" placeholder="Telefon" required minlength="3">
                         </div>
                       </div>
                       <div class="col-md-12 pl-1">
                         <div class="form-group">
                           <label>Açıklama</label>
-                          <input type="text" id="aciklama" class="form-control" disabled="" th:field="*{aciklama}" placeholder="Telefon">
+                          <input type="text" id="aciklama" class="form-control" disabled="" th:field="*{aciklama}" placeholder="Telefon" required minlength="3">
                         </div>
                       </div>
                     </div>
@@ -283,7 +292,7 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form th:object="${odeme}" class="odeme-form" method="post">
+        <form th:object="${odeme}" class="odeme-form" id="odeme-odeme-formelement" method="post" >
           <div class="modal-body">
             <div class="form-group">
               <label class="col-form-label">İşlem Adı:</label>
@@ -291,7 +300,7 @@
             </div>
             <div class="form-group">
               <label class="col-form-label">Tutar:</label>
-              <input type="number" id="tutar" th:field="*{odenenTutar}" class="form-control" >
+              <input type="number" id="tutar" th:field="*{odenenTutar}" class="form-control" required min="1" >
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
@@ -316,17 +325,17 @@
             <div class="row">
               <div class="form-group col-md-6 col-6">
                 <label class="col-form-label">Tutar:</label>
-                <input type="number" th:field="*{tutar}" class="form-control">
+                <input type="number" th:field="*{tutar}" class="form-control" required min="1">
 
               </div>
               <div class="form-group col-md-6 col-6">
                 <label class="col-form-label">Ay:</label>
-                <input type="number" th:field="*{ay}" class="form-control">
+                <input type="number" th:field="*{ay}" class="form-control" required min="1">
               </div>
             </div>
             <div class="form-group">
               <label class="col-form-label">Açıklama</label>
-              <input type="text" th:field="*{aciklama}" class="form-control">
+              <input type="text" th:field="*{aciklama}" class="form-control" required minlength="2">
             </div>
             <button type="submit" id="islemEkleBtn" class="btn btn-primary">İslem Ekle</button>
           </form>
@@ -350,14 +359,17 @@
   <script>
     $('#musteri-form').attr('action', window.location.href + "/update")
 
+    document.querySelector("#tutar").value = "";
+
     var kacinci_islem;
 
     var a = $(location).attr('href');
-    var b = a.split('/')
-    b = b[b.length-1]
+    var b = a.split('/');
+    b = b[b.length-1];
 
     if (b.includes("?")){
       b = b.split("?");
+      b = b[0]
     }
 
     $("li#islemler").click(function(){
@@ -383,18 +395,15 @@
     });
 
     $('#exampleModal').on('show.bs.modal', function (event) {
-      var button = $(event.relatedTarget)
-      var recipient = button.data('whatever')
+      var button = $(event.relatedTarget);
+      var recipient = button.data('whatever');
 
       var modal = $(this)
       modal.find('.modal-title').text('' + recipient + ' için ödeme yap')
       modal.find('.modal-body input:first').val(recipient)
 
-      $('.odeme-form').attr('action',window.location.protocol + "//" + window.location.host + "/" + 'odeme/' + b[0] + '/' + kacinci_islem )
+      $('.odeme-form').attr('action',window.location.protocol + "//" + window.location.host + "/" + 'odeme/' + b + '/' + kacinci_islem )
     })
-
-
-
 
   </script>
 </body>

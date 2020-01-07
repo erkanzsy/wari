@@ -25,11 +25,16 @@ public class UserService {
         return userRepository.findById(id);
     }
 
-    public void save(User user){
-        user.setAktifMi(true);
-        user.setParola(p.encode(user.getParola()));
-        user.setRole("USER");
-        userRepository.save(user);
+    public boolean save(User user){
+        if (userRepository.findByEmail(user.getEmail()) == null){
+            user.setAktifMi(true);
+            user.setParola(p.encode(user.getParola()));
+            user.setRole("USER");
+            userRepository.save(user);
+            return true;
+        }else
+            return false;
+
     }
 
     public void setDisableUser(int id) {
@@ -41,6 +46,12 @@ public class UserService {
     public void setActiveUser(int id) {
         User user = userRepository.findById(id);
         user.setAktifMi(true);
+        userRepository.save(user);
+    }
+
+    public void changeRole(int id) {
+        User user = userRepository.findById(id);
+        user.setRole("ADMIN");
         userRepository.save(user);
     }
 }

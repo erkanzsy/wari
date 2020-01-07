@@ -43,7 +43,7 @@ public class InitDB implements CommandLineRunner {
         user.setAdres("Malibu/FalanFilan");
         user.setEmail("ali@veli.com");
         user.setParola(passwordEncoder.encode("av"));
-        user.setRole("ADMIN");
+        user.setRole("ADMIN,SUPER");
         user.setAktifMi(true);
 
         User user1 = new User();
@@ -109,7 +109,7 @@ public class InitDB implements CommandLineRunner {
         musteri1.setAdres("Deneme Açıklaama");
         musteri1.setAciklama("DenemeAçıklama");
         musteri1.setSoyad("Das");
-        musteri.setKayitTarihi(LocalDate.now());
+        musteri1.setKayitTarihi(LocalDate.now());
         musteri1.setTc("234543234566532");
         musteri1.setTelefon("2323232323");
 
@@ -117,6 +117,7 @@ public class InitDB implements CommandLineRunner {
         islemGİl.setAy(4);
         islemGİl.setTarih(LocalDate.of(2019,9,20));
         islemGİl.setTutar(200);
+        islemGİl.setBitti(true);
         islemGİl.setAciklama("Monster");
         islemGİl.setMusteri(musteri1);
 

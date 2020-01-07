@@ -230,6 +230,11 @@
             </div>
             <input style="margin-top: 16px;" type="submit" value="Log In" />
         </form>
+        <div th:if="${param.error}">
+            <div class="alert alert-danger alert-dismissible fade show">
+                 Başarısız Giriş
+            </div>
+        </div>
     </div>
 </body>
 
