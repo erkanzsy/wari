@@ -28,7 +28,7 @@ public class InitDB implements CommandLineRunner {
 
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args){
         if (userRepository.count() == 0 ){
             ekle();
         }
@@ -40,30 +40,30 @@ public class InitDB implements CommandLineRunner {
         user.setSoyad("Veli");
         user.setTc("1234567890");
         user.setTelefonNumarasi("53552535533");
-        user.setAdres("Malibu/FalanFilan");
+        user.setAdres("OrasıBurası/FalanFilan");
         user.setEmail("ali@veli.com");
         user.setParola(passwordEncoder.encode("av"));
         user.setRole("ADMIN,SUPER");
         user.setAktifMi(true);
 
         User user1 = new User();
-        user1.setAd("Gaz");
-        user1.setSoyad("More");
+        user1.setAd("Gazmor");
+        user1.setSoyad("Ab");
         user1.setTelefonNumarasi("35533");
         user1.setAdres("Arnavutluk/FalanFilan");
         user1.setEmail("gaz@more.com");
-        user1.setParola(passwordEncoder.encode("gaz"));
+        user1.setParola(passwordEncoder.encode("ga"));
         user1.setTc("90");
         user1.setRole("USER");
         user1.setAktifMi(true);
 
         User user12 = new User();
-        user12.setAd("Er");
-        user12.setSoyad("Kan");
+        user12.setAd("Erkan");
+        user12.setSoyad("Öz");
         user12.setTelefonNumarasi("355123433");
-        user12.setAdres("BArtin/FalanFilan");
+        user12.setAdres("Bartin/FalanFilan");
         user12.setEmail("er@kan.com");
-        user12.setParola(passwordEncoder.encode("eo"));
+        user12.setParola(passwordEncoder.encode("ek"));
         user12.setTc("902345");
         user12.setRole("USER");
         user12.setAktifMi(false);
@@ -71,12 +71,12 @@ public class InitDB implements CommandLineRunner {
         userRepository.saveAll(Arrays.asList(user,user1,user12));
 
         Musteri musteri = new Musteri();
-        musteri.setAd("Tro");
-        musteri.setAdres("Deneme");
+        musteri.setAd("Mohamed");
+        musteri.setAdres("Mali/World");
         musteri.setAciklama("Deneme");
         musteri.setEmail("tro@tro.com");
-        musteri.setSoyad("Kiz");
-        musteri.setKayitTarihi(LocalDate.now());
+        musteri.setSoyad("Tro");
+        musteri.setKayitTarihi(LocalDate.of(2019,12,20));
         musteri.setTc("234543234566532");
         musteri.setTelefon("8238238832");
 
@@ -104,11 +104,11 @@ public class InitDB implements CommandLineRunner {
 
 
         Musteri musteri1 = new Musteri();
-        musteri1.setAd("Gil");
-        musteri1.setEmail("gil@gil.com");
-        musteri1.setAdres("Deneme Açıklaama");
+        musteri1.setAd("Marwane");
+        musteri1.setEmail("mar@wane.com");
+        musteri1.setAdres("Togo/World");
         musteri1.setAciklama("DenemeAçıklama");
-        musteri1.setSoyad("Das");
+        musteri1.setSoyad("Ma");
         musteri1.setKayitTarihi(LocalDate.now());
         musteri1.setTc("234543234566532");
         musteri1.setTelefon("2323232323");

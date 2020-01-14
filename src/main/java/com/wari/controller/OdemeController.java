@@ -138,10 +138,10 @@ public class OdemeController {
             PdfWriter.getInstance(document,out);
             document.open();
             Paragraph para = new Paragraph();
-            Font fontHeader = new Font(Font.FontFamily.TIMES_ROMAN, 14,Font.BOLD);
+            Font fontHeader = new Font(Font.FontFamily.TIMES_ROMAN, 16,Font.BOLD);
             Font font1 = new Font(Font.FontFamily.COURIER, 10, Font.BOLD);
 
-            para = new Paragraph("X Okulu ", fontHeader);
+            para = new Paragraph("WARI", fontHeader);
             para.setAlignment(Element.ALIGN_CENTER);
             document.add(para);
 
