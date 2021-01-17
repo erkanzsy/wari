@@ -17,5 +17,4 @@ public interface MusteriRepository extends JpaRepository<Musteri,Integer> {
     List<Musteri> findByAdContaining(String name);
 
     List<Musteri> findTop5ByOrderByIdDesc();
-
 }

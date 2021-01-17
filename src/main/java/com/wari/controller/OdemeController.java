@@ -90,7 +90,6 @@ public class OdemeController {
                 table.addCell(cell);
             }
 
-
             Font font = FontFactory.getFont(FontFactory.COURIER, 8);
 
             BaseColor lgray = BaseColor.LIGHT_GRAY;
@@ -188,5 +187,4 @@ public class OdemeController {
 
         return new ByteArrayInputStream(out.toByteArray());
     }
-
 }

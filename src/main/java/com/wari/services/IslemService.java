@@ -22,7 +22,6 @@ public class IslemService {
         return islemRepository.odemeBitmemisveBirAydirOdemeYapmayanlar();
     }
 
-
     public List<Islem> finfByMusteriId(int id){ return islemRepository.findByMusteriId(id);}
 
     public void save(Islem islem, int musteri_id) {
@@ -35,5 +34,4 @@ public class IslemService {
         List<Islem> sonIslemlerSirali = islemRepository.findTop5ByOrderByIdDesc();
         return sonIslemlerSirali;
     }
-
 }

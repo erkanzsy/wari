@@ -41,13 +41,11 @@ public class MusteriController {
         return "musteriler";
     }
 
-
     @PostMapping("kayit")
     public String musteriKayit(@Valid Musteri musteri){
         musteriService.save(musteri);
         return "redirect:/musteri/"+musteri.getId()+"?kayit";
     }
-
 
     @RequestMapping("/musteri/{id}")
     public String musteriPage(@PathVariable("id") int id, Model model){
@@ -76,6 +74,4 @@ public class MusteriController {
 
         return "musteriler";
     }
-
-
 }

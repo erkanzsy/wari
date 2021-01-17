@@ -22,7 +22,6 @@ public class OdemeService {
     @Autowired
     OdemeRepository odemeRepository;
 
-
     @Autowired
     IslemRepository islemRepository;
 
@@ -70,6 +69,5 @@ public class OdemeService {
         }else{
             return false;
         }
-
     }
 }

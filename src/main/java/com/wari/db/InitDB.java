@@ -26,7 +26,6 @@ public class InitDB implements CommandLineRunner {
     @Autowired
     BCryptPasswordEncoder passwordEncoder;
 
-
     @Override
     public void run(String... args){
         if (userRepository.count() == 0 ){
@@ -47,12 +46,12 @@ public class InitDB implements CommandLineRunner {
         user.setAktifMi(true);
 
         User user1 = new User();
-        user1.setAd("Gazmor");
-        user1.setSoyad("Ab");
+        user1.setAd("Elif");
+        user1.setSoyad("Veli");
         user1.setTelefonNumarasi("35533");
-        user1.setAdres("Arnavutluk/FalanFilan");
-        user1.setEmail("gaz@more.com");
-        user1.setParola(passwordEncoder.encode("ga"));
+        user1.setAdres("Adana/FalanFilan");
+        user1.setEmail("elif@veli.com");
+        user1.setParola(passwordEncoder.encode("ev"));
         user1.setTc("90");
         user1.setRole("USER");
         user1.setAktifMi(true);
@@ -71,15 +70,14 @@ public class InitDB implements CommandLineRunner {
         userRepository.saveAll(Arrays.asList(user,user1,user12));
 
         Musteri musteri = new Musteri();
-        musteri.setAd("Mohamed");
-        musteri.setAdres("Mali/World");
+        musteri.setAd("Cengiz");
+        musteri.setAdres("Corum/World");
         musteri.setAciklama("Deneme");
-        musteri.setEmail("tro@tro.com");
-        musteri.setSoyad("Tro");
+        musteri.setEmail("cen@giz.com");
+        musteri.setSoyad("Insa");
         musteri.setKayitTarihi(LocalDate.of(2019,12,20));
         musteri.setTc("234543234566532");
         musteri.setTelefon("8238238832");
-
 
         Islem islem1 = new Islem();
         islem1.setAy(3);
@@ -102,10 +100,9 @@ public class InitDB implements CommandLineRunner {
 
         islem1.setOdemeler(Arrays.asList(odemeForIslem1,odeme1ForIslem1));
 
-
         Musteri musteri1 = new Musteri();
-        musteri1.setAd("Marwane");
-        musteri1.setEmail("mar@wane.com");
+        musteri1.setAd("Ceyhan");
+        musteri1.setEmail("cey@han.com");
         musteri1.setAdres("Togo/World");
         musteri1.setAciklama("DenemeAçıklama");
         musteri1.setSoyad("Ma");
@@ -113,34 +110,30 @@ public class InitDB implements CommandLineRunner {
         musteri1.setTc("234543234566532");
         musteri1.setTelefon("2323232323");
 
-        Islem islemGİl = new Islem();
-        islemGİl.setAy(4);
-        islemGİl.setTarih(LocalDate.of(2019,9,20));
-        islemGİl.setTutar(200);
-        islemGİl.setBitti(true);
-        islemGİl.setAciklama("Monster");
-        islemGİl.setMusteri(musteri1);
+        Islem islem2 = new Islem();
+        islem2.setAy(4);
+        islem2.setTarih(LocalDate.of(2019,9,20));
+        islem2.setTutar(200);
+        islem2.setBitti(true);
+        islem2.setAciklama("Monster");
+        islem2.setMusteri(musteri1);
 
         Odeme odemeForGil = new Odeme();
         odemeForGil.setIslemTarihi(LocalDate.of(2019,10,20));
         odemeForGil.setOdemeAlan(user);
         odemeForGil.setOdenenTutar(100);
-        odemeForGil.setIslem(islemGİl);
+        odemeForGil.setIslem(islem2);
 
         Odeme odeme1ForGil = new Odeme();
         odeme1ForGil.setIslemTarihi(LocalDate.now());
         odeme1ForGil.setOdemeAlan(user);
         odeme1ForGil.setOdenenTutar(100);
-        odeme1ForGil.setIslem(islemGİl);
+        odeme1ForGil.setIslem(islem2);
 
+        islem2.setOdemeler(Arrays.asList(odemeForGil, odeme1ForGil));
 
-        islemGİl.setOdemeler(Arrays.asList(odemeForGil, odeme1ForGil));
-
-        musteri1.setIslemler(Arrays.asList(islem1,islemGİl));
-
+        musteri1.setIslemler(Arrays.asList(islem1,islem2));
 
         musteriRepository.saveAll(Arrays.asList(musteri,musteri1));
-
-
     }
 }

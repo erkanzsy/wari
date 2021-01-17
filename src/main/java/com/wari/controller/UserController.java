@@ -103,7 +103,6 @@ public class UserController {
         PdfWriter.getInstance(document,bos);
 
         return ResponseEntity.ok().headers(httpHeaders).contentType(MediaType.APPLICATION_PDF).body(new InputStreamResource(byteArrayInputStream));
-
     }
 
     private ByteArrayInputStream userOdemeler(int user_id) {

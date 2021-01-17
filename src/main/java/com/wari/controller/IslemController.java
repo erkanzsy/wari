@@ -19,5 +19,4 @@ public class IslemController {
         islemService.save(islem, musteri_id);
         return "redirect:/musteri/"+ musteri_id+"?islem";
     }
-
 }

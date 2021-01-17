@@ -20,7 +20,6 @@ public class PageController {
     @Autowired
     OdemeService odemeService;
 
-
     @RequestMapping("/")
     public String anasayfa(Model model) {
         model.addAttribute("musteri_sayisi", musteriService.musteriSayisi());
@@ -36,8 +35,4 @@ public class PageController {
     public String login(){
         return "login";
     }
-
-
-
-
 }

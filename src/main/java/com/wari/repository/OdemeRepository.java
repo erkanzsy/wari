@@ -13,8 +13,4 @@ public interface OdemeRepository extends JpaRepository<Odeme,Integer> {
     List<Odeme> findAllByIslemTarihi(LocalDate localDate);
 
     List<Odeme> findAllByOdemeAlanId(int id);
-
-
-
-
 }
