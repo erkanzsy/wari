@@ -118,19 +118,19 @@ public class InitDB implements CommandLineRunner {
         islem2.setAciklama("Monster");
         islem2.setMusteri(musteri1);
 
-        Odeme odemeForGil = new Odeme();
-        odemeForGil.setIslemTarihi(LocalDate.of(2019,10,20));
-        odemeForGil.setOdemeAlan(user);
-        odemeForGil.setOdenenTutar(100);
-        odemeForGil.setIslem(islem2);
+        Odeme odeme3 = new Odeme();
+        odeme3.setIslemTarihi(LocalDate.of(2019,10,20));
+        odeme3.setOdemeAlan(user);
+        odeme3.setOdenenTutar(100);
+        odeme3.setIslem(islem2);
 
-        Odeme odeme1ForGil = new Odeme();
-        odeme1ForGil.setIslemTarihi(LocalDate.now());
-        odeme1ForGil.setOdemeAlan(user);
-        odeme1ForGil.setOdenenTutar(100);
-        odeme1ForGil.setIslem(islem2);
+        Odeme odeme4 = new Odeme();
+        odeme4.setIslemTarihi(LocalDate.now());
+        odeme4.setOdemeAlan(user);
+        odeme4.setOdenenTutar(100);
+        odeme4.setIslem(islem2);
 
-        islem2.setOdemeler(Arrays.asList(odemeForGil, odeme1ForGil));
+        islem2.setOdemeler(Arrays.asList(odeme3, odeme4));
 
         musteri1.setIslemler(Arrays.asList(islem1,islem2));
 
